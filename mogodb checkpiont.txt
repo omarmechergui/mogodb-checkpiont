@@ -1,0 +1,239 @@
+Please enter a MongoDB connection string (Default: mongodb://localhost/): mongosh
+mongosh
+Current Mongosh Log ID: 6745a935a1ee4863ac0d818f
+Connecting to:          mongodb://127.0.0.1:27017/mongosh?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.3
+Using MongoDB:          8.0.3
+Using Mongosh:          2.3.3
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-11-25T19:49:42.584+01:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+mongosh> use contact
+switched to db contact
+contact> db.createCollection("contactList")
+{ ok: 1 }
+contact> db.contactList.insertMany([{Lastname:"ben",Firstname:"moris",Email:"ben@gmail.com",age26},{"Lastname": Kefi, "Firstname": "Seif", Email: "kefi@gmail.com", age:15}])
+ReferenceError: age26 is not defined
+contact> db.contactList.insertMany([{Lastname:"ben",Firstname:"moris",Email:"ben@gmail.com",age:26},{Lastname: "Kefi", Firstname: "Seif", Email: "kefi@gmail.com", age:15}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6745ad0da1ee4863ac0d8190'),
+    '1': ObjectId('6745ad0da1ee4863ac0d8191')
+  }
+}
+contact> db.contactList.insertMany([{Lastname: "Emilie", Firstname: "brouge", Email: "emilie.b@gmail.com", age:40},{Lastname: "Alex", Firstname: "brown", age: 4},{Lastname: "Denzel", Firstname: "Washington", age:3}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6745adbda1ee4863ac0d8192'),
+    '1': ObjectId('6745adbda1ee4863ac0d8193'),
+    '2': ObjectId('6745adbda1ee4863ac0d8194')
+  }
+}
+contact> db.contactList.find
+[Function: find] AsyncFunction {
+  returnsPromise: true,
+  apiVersions: [ 1, Infinity ],
+  returnType: 'Cursor',
+  serverVersions: [ '0.0.0', '999.999.999' ],
+  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
+  deprecated: false,
+  platforms: [ 'Compass', 'Browser', 'CLI' ],
+  isDirectShellCommand: false,
+  acceptsRawInput: false,
+  shellCommandCompleter: undefined,
+  help: [Function (anonymous)] Help
+}
+contact> db.contactList.find()
+[
+  {
+    _id: ObjectId('6745ad0da1ee4863ac0d8190'),
+    Lastname: 'ben',
+    Firstname: 'moris',
+    Email: 'ben@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId('6745ad0da1ee4863ac0d8191'),
+    Lastname: 'Kefi',
+    Firstname: 'Seif',
+    Email: 'kefi@gmail.com',
+    age: 15
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8192'),
+    Lastname: 'Emilie',
+    Firstname: 'brouge',
+    Email: 'emilie.b@gmail.com',
+    age: 40
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8193'),
+    Lastname: 'Alex',
+    Firstname: 'brown',
+    age: 4
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8194'),
+    Lastname: 'Denzel',
+    Firstname: 'Washington',
+    age: 3
+  }
+]
+contact> db.contactList.findOne({_id: ObjectId('6745adbda1ee4863ac0d8194')})
+{
+  _id: ObjectId('6745adbda1ee4863ac0d8194'),
+  Lastname: 'Denzel',
+  Firstname: 'Washington',
+  age: 3
+}
+contact> db.contactList.find({age:{$gt:18}})
+[
+  {
+    _id: ObjectId('6745ad0da1ee4863ac0d8190'),
+    Lastname: 'ben',
+    Firstname: 'moris',
+    Email: 'ben@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8192'),
+    Lastname: 'Emilie',
+    Firstname: 'brouge',
+    Email: 'emilie.b@gmail.com',
+    age: 40
+  }
+]
+contact> db.contactList.find({age:{$gte:18}})
+[
+  {
+    _id: ObjectId('6745ad0da1ee4863ac0d8190'),
+    Lastname: 'ben',
+    Firstname: 'moris',
+    Email: 'ben@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8192'),
+    Lastname: 'Emilie',
+    Firstname: 'brouge',
+    Email: 'emilie.b@gmail.com',
+    age: 40
+  }
+]
+contact> db.contactList.updateOne({Firstname:"seif"},{$set:{Firstname:"den"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+contact> db.contactList
+contact.contactList
+contact> db.contactList.find({age:{$gt:15},Firstname:{$regex"den"}})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:51)
+
+> 1 | db.contactList.find({age:{$gt:15},Firstname:{$regex"den"}})
+    |                                                    ^
+  2 |
+
+contact> db.contactList.find({age:{$gt:15},Firstname:{$regex:"den"}})
+
+contact> db.contactList.find({age:{$gt:14},Firstname:{$regex:"den"}})
+
+contact> db.contactList.find({age:{$gt:14},Firstname:{$regex:"den"}})
+
+contact> db.contactList.find()
+[
+  {
+    _id: ObjectId('6745ad0da1ee4863ac0d8190'),
+    Lastname: 'ben',
+    Firstname: 'moris',
+    Email: 'ben@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId('6745ad0da1ee4863ac0d8191'),
+    Lastname: 'Kefi',
+    Firstname: 'Seif',
+    Email: 'kefi@gmail.com',
+    age: 15
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8192'),
+    Lastname: 'Emilie',
+    Firstname: 'brouge',
+    Email: 'emilie.b@gmail.com',
+    age: 40
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8193'),
+    Lastname: 'Alex',
+    Firstname: 'brown',
+    age: 4
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8194'),
+    Lastname: 'Denzel',
+    Firstname: 'Washington',
+    age: 3
+  }
+]
+contact> db.contactList.find({age:{$lt:14},Lastname:{$regex:"Den"}})
+[
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8194'),
+    Lastname: 'Denzel',
+    Firstname: 'Washington',
+    age: 3
+  }
+]
+contact> db.contactList.delitMany({age:{lt:5}})
+TypeError: db.contactList.delitMany is not a function
+contact> db.contactList.deletMany({age:{lt:5}})
+TypeError: db.contactList.deletMany is not a function
+contact> db.contactList.deleteMany({age:{lt:5}})
+{ acknowledged: true, deletedCount: 0 }
+contact> db.contactList.find()
+[
+  {
+    _id: ObjectId('6745ad0da1ee4863ac0d8190'),
+    Lastname: 'ben',
+    Firstname: 'moris',
+    Email: 'ben@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId('6745ad0da1ee4863ac0d8191'),
+    Lastname: 'Kefi',
+    Firstname: 'Seif',
+    Email: 'kefi@gmail.com',
+    age: 15
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8192'),
+    Lastname: 'Emilie',
+    Firstname: 'brouge',
+    Email: 'emilie.b@gmail.com',
+    age: 40
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8193'),
+    Lastname: 'Alex',
+    Firstname: 'brown',
+    age: 4
+  },
+  {
+    _id: ObjectId('6745adbda1ee4863ac0d8194'),
+    Lastname: 'Denzel',
+    Firstname: 'Washington',
+    age: 3
+  }
+]
+contact>
